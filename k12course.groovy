@@ -18,10 +18,11 @@ pipeline {
                         powershell """
                             cd $CI_PROJECT_DIR
                             git reset --hard HEAD
+                            git clean -fx
                             git pull origin dev-2020.3
                             cd  $CI_PROJECT_DIR\\ci
-                            $CI_COMMIT_SHA = git log -n 1 --pretty=format:'%h'
-                            .\\BuildAndUpload.ps1  "$CI_PROJECT_DIR" "$CI_COMMIT_SHA"  "Win64"
+                            CI_COMMIT_SHA = git log -n 1 --pretty=format:'%h'
+                            .\\BuildAndUpload.ps1  "$CI_PROJECT_DIR" "0afe0a27b"  "Win64"
                         """
                     }
                 }
@@ -29,8 +30,8 @@ pipeline {
                     steps {
                         powershell """
                             cd  $CI_PROJECT_DIR\\ci
-                            $CI_COMMIT_SHA = git log -n 1 --pretty=format:'%h'
-                            .\\BuildAndUpload.ps1  "$CI_PROJECT_DIR" "$CI_COMMIT_SHA"  "OSX"
+                            CI_COMMIT_SHA = git log -n 1 --pretty=format:'%h'
+                            .\\BuildAndUpload.ps1  "$CI_PROJECT_DIR" "71d0bec2f"  "OSX"
                         """
                     }
                 }
@@ -47,6 +48,7 @@ pipeline {
                         powershell """
                             cd $CI_PROJECT_DIR
                             git reset --hard HEAD
+                            git clean -fx
                         """
                     }
                 }
