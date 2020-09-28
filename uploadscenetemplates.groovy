@@ -1,5 +1,5 @@
 pipeline {
-    agent {label 'windows'}
+    agent {label 'k12-win12-001'}
     
     environment {
         CI_PROJECT_DIR = 'E:\\k12jenkins\\playground'
@@ -26,11 +26,12 @@ pipeline {
                     cd $CI_PROJECT_DIR
                     git reset --hard HEAD
                     git pull origin dev-master
+                    git clean -fx
                     cd $CI_PROJECT_DIR\\ci
                     .\\windows-upload-scene-template.ps1 "$CI_PROJECT_DIR" "$Unity_Editor" "$CI_COMMIT_TAG" false
                     cd $CI_PROJECT_DIR
                     git reset --hard HEAD
-                    rm  Assets/UnityK12/Editor/Icons.meta
+                    git clean -fx
                 """
                 }
             }

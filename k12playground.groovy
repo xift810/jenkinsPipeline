@@ -5,12 +5,20 @@ pipeline {
     environment {
         CI_PROJECT_DIR = 'E:\\k12jenkins\\playground'
         Unity_Editor = 'C:\\Program Files\\Unity2019.3.1f1\\Editor\\Unity.exe'
-        CI_COMMIT_TAG = 'test_0.1'
+        // CI_COMMIT_TAG = 'test_0.1'
         Scripts_Folder = 'E:\\ci_scripts'
         
     }
     
     stages {
+        stage('deploy CI_COMMIT_TAG ?') {
+            steps {
+                script{
+                    env.CI_COMMIT_TAG = input message: 'deploy CI_COMMIT_TAG?', parameters: [string(defaultValue: 'test_0.1', description: 'ci commit tag', name: 'CI_COMMIT_TAG', trim: true)]
+                }
+                
+            }
+        }
       stage('build and Upload on Linux and Windows'){
           parallel{
                 stage('Linux Onebox PCB Build And Upload') {
@@ -48,6 +56,7 @@ pipeline {
                                powershell """
                                     cd $CI_PROJECT_DIR
                                     git reset --hard HEAD
+                                    git clean -fx
                                     git pull origin dev-master
                                     cd  $CI_PROJECT_DIR\\ci
                                     .\\windows-build.ps1 "$Unity_Editor"  "$CI_PROJECT_DIR" "$CI_COMMIT_TAG" "$Scripts_Folder" UNITY_K12_PLAYGROUND_INT
@@ -70,9 +79,7 @@ pipeline {
                                powershell """
                                     cd $CI_PROJECT_DIR
                                     git reset --hard HEAD
-                                    rm Assets/UnityK12/Editor/Icons.meta
-                                    rm Assets/UnityK12/Plugins/Unity.InternalAPIEditorBridge.001.*
-                                    rm Unity.InternalAPIEditorBridge.001.dll
+                                    git clean -fx
                                 """
                            }
                       }
