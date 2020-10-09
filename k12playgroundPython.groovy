@@ -25,7 +25,7 @@ pipeline {
                     cd $CI_PROJECT_DIR
                     git reset --hard HEAD
                     git clean -fx
-                    git pull origin dev-master
+                    git pull origin python
                     cd $CI_PROJECT_DIR\\ci
                     .\\windows-build.ps1  "$Unity_Editor" "$CI_PROJECT_DIR" "$CI_COMMIT_TAG" "$Scripts_Folder" UNITY_K12_PLAYGROUND_INT windows
                 """
