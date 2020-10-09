@@ -4,7 +4,7 @@ pipeline {
         CI_PROJECT_DIR = 'E:\\k12jenkins\\unity4kid'
         Unity_Editor = 'C:\\Program Files\\Unity2019.3.1f1\\Editor\\Unity.exe'
         Scripts_Folder = 'E:\\ci_scripts'
-        
+        //CI_COMMIT_SHA = "111111"
     }
     
     stages {  
@@ -21,8 +21,8 @@ pipeline {
                             git clean -fx
                             git pull origin dev-2020.3
                             cd  $CI_PROJECT_DIR\\ci
-                            CI_COMMIT_SHA = git log -n 1 --pretty=format:'%h'
-                            .\\BuildAndUpload.ps1  "$CI_PROJECT_DIR" "0afe0a27b"  "Win64"
+                            \$5CI_COMMIT_SHA = git log -n 1 --pretty=format:'%h'
+                            .\\BuildAndUpload.ps1  "$CI_PROJECT_DIR" "\$5CI_COMMIT_SHA"  "Win64"
                         """
                     }
                 }
@@ -30,8 +30,8 @@ pipeline {
                     steps {
                         powershell """
                             cd  $CI_PROJECT_DIR\\ci
-                            CI_COMMIT_SHA = git log -n 1 --pretty=format:'%h'
-                            .\\BuildAndUpload.ps1  "$CI_PROJECT_DIR" "71d0bec2f"  "OSX"
+                            \$5CI_COMMIT_SHA = git log -n 1 --pretty=format:'%h'
+                            .\\BuildAndUpload.ps1  "$CI_PROJECT_DIR" "\$5CI_COMMIT_SHA"  "OSX"
                         """
                     }
                 }
